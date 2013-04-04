@@ -1,5 +1,5 @@
 #include "stdlib.h"
-#include "Optlib.h"
+#include "Optlib.h"             /* getopt_c */
 #include "service.h"
 #define SERVICE 1
 

@@ -5,6 +5,7 @@
 #endif
 #ifndef OPTLIB_H
 int getopt_c(char *, int);
-int get_int(int *);
-void _fgets(char *, int, FILE *);
+int get_uint(FILE *);
+char _fgets(char *, int, FILE *);
+char *fget_str(FILE *, int, char, int, ...);
 #endif

@@ -1,6 +1,7 @@
 #include "Optlib.h"
 #include "stdlib.h"
 #include "string.h"
+#include "stdarg.h"
 #define OPTLIB_H 1
 
 int getopt_c(char *arg, int hyphen_lim)
@@ -18,12 +19,12 @@ int getopt_c(char *arg, int hyphen_lim)
     return arg_type;
 }
 
-int get_num(void)
+int get_uint(FILE * stream)
 {
     char tmp = 'a';
     char buff[10];
     int i = 0, output = 0;
-    fgets(buff, 8, stdin);
+    fgets(buff, 8, stream);
     if ((tmp = buff[i]) == '\n')
         return -1;
     do {
@@ -36,7 +37,7 @@ int get_num(void)
     return output;
 }
 
-void _fgets(char *target, int length, FILE * source)
+char _fgets(char *target, int length, FILE * source)
 {
     int i = 0;
     fflush(stdin);
@@ -45,5 +46,38 @@ void _fgets(char *target, int length, FILE * source)
         i++;
     if (*(target + i) == '\n' && i)
         *(target + i) = '\0';
-    return;
+    return *(target);
+}
+
+char *fget_str(FILE * file, int length, char stop_character,
+               int excl_char_num, ...)
+{
+    int i = 0, j = 0, exclude_char = 0;
+    char tmp;
+    char *str;
+    char *excl_chars;
+    va_list args;
+    excl_chars = (char *) calloc(excl_char_num + 1, sizeof(char));
+    str = (char *) calloc(length + 1, sizeof(char));
+    va_start(args, excl_char_num);
+    for (i = 0; i < excl_char_num; i++)
+        excl_chars[i] = va_arg(args, char);
+    va_end(args);
+    i = 0;
+    while (i < length) {
+        tmp = getc(file);
+        if (tmp == stop_character)
+            break;
+        for (j = 0; j < excl_char_num; j++)
+            if (excl_chars[j] == tmp)
+                exclude_char = 1;
+        if (exclude_char) {
+            exclude_char = 0;
+            continue;
+        }
+        str[i] = tmp;
+        i++;
+    }
+    free(excl_chars);
+    return str;
 }

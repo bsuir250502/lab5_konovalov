@@ -83,8 +83,7 @@ int menu(studen_t * students)
 void print_menu(void)
 {
     printf("1 - Create new list of students\n"
-           "2 - Use existing list of students\n"
-           "3 - Edit existing list of students\n" "4 - Exit program\n");
+           "2 - Use existing list of students\n" "3 - Edit existing list of students\n" "4 - Exit program\n");
     return;
 }
 
@@ -113,8 +112,7 @@ int students_input(studen_t * students, int students_n, int mode)
 {
     switch (mode) {
     case 1:
-        for (students_n = 0; students_n < MAX_STUDENTS_NUMBER;
-             students_n++)
+        for (students_n = 0; students_n < MAX_STUDENTS_NUMBER; students_n++)
             if (!input(&students[students_n]))
                 break;
         break;
@@ -135,11 +133,8 @@ int input(studen_t * students)
     students->books_number = 0;
     while (1) {
         printf("Print book info\n");
-        students->books[students->books_number] =
-            (char *) calloc(NAME_SIZE * 2, sizeof(char));
-        if (_fgets
-            (students->books[students->books_number], NAME_SIZE * 2 - 1,
-             stdin) == '\n')
+        students->books[students->books_number] = (char *) calloc(NAME_SIZE * 2, sizeof(char));
+        if (_fgets(students->books[students->books_number], NAME_SIZE * 2 - 1, stdin) == '\n')
             break;
         students->books_number++;
     }
@@ -222,10 +217,8 @@ int add_book(char *str, studen_t * students, int students_n)
     if ((i = file_search(str, students, students_n)) != -1) {
         if (students[i].books_number != MAX_BOOKS_NUMBER) {
             printf("Print new book info\n");
-            students[i].books[students[i].books_number + 1] =
-                (char *) calloc(NAME_SIZE * 2, sizeof(char));
-            _fgets(students[i].books[students[i].books_number + 1],
-                   NAME_SIZE * 2, stdin);
+            students[i].books[students[i].books_number + 1] = (char *) calloc(NAME_SIZE * 2, sizeof(char));
+            _fgets(students[i].books[students[i].books_number + 1], NAME_SIZE * 2, stdin);
             students[i].books_number++;
         } else
             printf("Books limit reached\n");
@@ -237,9 +230,7 @@ int add_book(char *str, studen_t * students, int students_n)
 void edit_menu()
 {
     printf("1 - Delete student\n"
-           "2 - Add student(if possible)\n"
-           "3 - Delete book\n"
-           "4 - Add book to student\n" "5 - End editing\n");
+           "2 - Add student(if possible)\n" "3 - Delete book\n" "4 - Add book to student\n" "5 - End editing\n");
 }
 
 FILE *_FileSelect(int mode)
@@ -302,15 +293,11 @@ int file_read(FILE * list, studen_t * students)
             return 0;
         if (feof(list))
             break;
-        students[i].books =
-            (char **) calloc(MAX_BOOKS_NUMBER, sizeof(char *));
-        students[i].surname =
-            fget_str(list, NAME_SIZE - 1, ':', 2, ' ', '\n');
+        students[i].books = (char **) calloc(MAX_BOOKS_NUMBER, sizeof(char *));
+        students[i].surname = fget_str(list, NAME_SIZE - 1, ':', 2, ' ', '\n');
         for (j = 0; j < students[i].books_number - 1; j++)
-            students[i].books[j] =
-                fget_str(list, NAME_SIZE * 2, ',', 1, '\n');
-        students[i].books[j] =
-            fget_str(list, NAME_SIZE * 2 - 1, '.', 1, '\n');
+            students[i].books[j] = fget_str(list, NAME_SIZE * 2, ',', 1, '\n');
+        students[i].books[j] = fget_str(list, NAME_SIZE * 2 - 1, '.', 1, '\n');
         i++;
     }
     fclose(list);

@@ -49,8 +49,7 @@ char _fgets(char *target, int length, FILE * source)
     return *(target);
 }
 
-char *fget_str(FILE * file, int length, char stop_character,
-               int excl_char_num, ...)
+char *fget_str(FILE * file, int length, char stop_character, int excl_char_num, ...)
 {
     int i = 0, j = 0, exclude_char = 0;
     char tmp;
